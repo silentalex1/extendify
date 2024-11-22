@@ -1,13 +1,31 @@
-async function navigate(section) {
-    const content = document.getElementById('content');
-    if (section === 'home') {
-        content.innerHTML = `
+const premadeExtensions = [
+    {
+        id: 'privacyrights',
+        name: 'Privacy Rights',
+        description: 'Explore your web securely.',
+        url: '/privacyrights'
+    }
+];
+
+function getExtensionsFromCookies() {
+    const cookie = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('extensions='));
+    return cookie ? JSON.parse(decodeURIComponent(cookie.split('=')[1])) : [];
+}
+
+function saveExtensionsToCookies(extensions) {
+    document.cookie = `extensions=${encodeURIComponent(JSON.stringify(extensions))}; path=/`;
+}
+
+function navigate(path) {
+    if (path === 'home') {
+        document.getElementById('content').innerHTML = `
             <h2>Welcome to Extendify!</h2>
             <p>Your one-stop platform to explore, test, and share Chrome extensions.</p>
-            <button class="cta-button" onclick="navigate('explore')">Explore Now</button>
         `;
-    } else if (section === 'post') {
-        content.innerHTML = `
+    } else if (path === 'post') {
+        document.getElementById('content').innerHTML = `
             <h2>Post Your Extension</h2>
             <form id="postForm">
                 <input type="text" id="name" placeholder="Extension Name" required>
@@ -15,33 +33,33 @@ async function navigate(section) {
                 <button type="submit">Post Extension</button>
             </form>
         `;
-        document.getElementById('postForm').addEventListener('submit', async (e) => {
+        document.getElementById('postForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const name = document.getElementById('name').value;
             const description = document.getElementById('description').value;
 
-            const response = await fetch('/post-extension', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, description })
-            });
-            if (response.ok) {
-                alert('Extension posted!');
-                navigate('explore');
-            }
+            const extensions = getExtensionsFromCookies();
+            const newExtension = {
+                id: `ext-${Date.now()}`,
+                name,
+                description,
+                url: '/explorext'
+            };
+            extensions.push(newExtension);
+            saveExtensionsToCookies(extensions);
+            alert('Extension posted!');
+            navigate('/explorext');
         });
-    } else if (section === 'explore') {
-        const response = await fetch('/get-extensions');
-        const extensions = await response.json();
-        content.innerHTML = `
-            <h2>Explore Extensions</h2>
-            ${extensions.length === 0 ? '<p>No extensions yet. Post one!</p>' : ''}
-            ${extensions.map(ext => `
-                <div class="card">
-                    <h3>${ext.name}</h3>
-                    <p>${ext.description}</p>
-                </div>
-            `).join('')}
-        `;
+    } else if (path === '/explorext') {
+        location.href = 'explorext.html';
     }
 }
+
+
+if (!document.cookie.includes('extensions=')) {
+    saveExtensionsToCookies(premadeExtensions);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    navigate('home');
+});
