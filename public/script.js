@@ -12,30 +12,22 @@ async function navigate(section) {
             <form id="postForm">
                 <input type="text" id="name" placeholder="Extension Name" required>
                 <textarea id="description" placeholder="Extension Description" required></textarea>
-                <button type="submit" class="cta-button">Post Extension</button>
+                <button type="submit">Post Extension</button>
             </form>
         `;
         document.getElementById('postForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const name = document.getElementById('name').value.trim();
-            const description = document.getElementById('description').value.trim();
-
-            if (!name || !description) {
-                alert('Please fill in all fields!');
-                return;
-            }
+            const name = document.getElementById('name').value;
+            const description = document.getElementById('description').value;
 
             const response = await fetch('/post-extension', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name, description })
             });
-
             if (response.ok) {
-                alert('Extension posted successfully!');
+                alert('Extension posted!');
                 navigate('explore');
-            } else {
-                alert('Failed to post the extension. Try again!');
             }
         });
     } else if (section === 'explore') {
