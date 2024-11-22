@@ -17,17 +17,25 @@ async function navigate(section) {
         `;
         document.getElementById('postForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const name = document.getElementById('name').value;
-            const description = document.getElementById('description').value;
+            const name = document.getElementById('name').value.trim();
+            const description = document.getElementById('description').value.trim();
+
+            if (!name || !description) {
+                alert('Please fill in all fields!');
+                return;
+            }
 
             const response = await fetch('/post-extension', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name, description })
             });
+
             if (response.ok) {
-                alert('Extension posted!');
+                alert('Extension posted successfully!');
                 navigate('explore');
+            } else {
+                alert('Failed to post the extension. Try again!');
             }
         });
     } else if (section === 'explore') {
