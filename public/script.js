@@ -8,9 +8,7 @@ const premadeExtensions = [
 ];
 
 function getExtensionsFromCookies() {
-    const cookie = document.cookie
-        .split('; ')
-        .find(row => row.startsWith('extensions='));
+    const cookie = document.cookie.split('; ').find(row => row.startsWith('extensions='));
     return cookie ? JSON.parse(decodeURIComponent(cookie.split('=')[1])) : [];
 }
 
@@ -21,8 +19,8 @@ function saveExtensionsToCookies(extensions) {
 function navigate(path) {
     if (path === 'home') {
         document.getElementById('content').innerHTML = `
-            <h2>Welcome to Extendify!</h2>
-            <p>Your one-stop platform to explore, test, and share Chrome extensions.</p>
+            <h2>Welcome to Extendify</h2>
+            <p>Discover, share, and test extensions in one place.</p>
         `;
     } else if (path === 'post') {
         document.getElementById('content').innerHTML = `
@@ -37,24 +35,22 @@ function navigate(path) {
             e.preventDefault();
             const name = document.getElementById('name').value;
             const description = document.getElementById('description').value;
-
             const extensions = getExtensionsFromCookies();
             const newExtension = {
                 id: `ext-${Date.now()}`,
                 name,
                 description,
-                url: '/explorext'
+                url: '/privacyrights'
             };
             extensions.push(newExtension);
             saveExtensionsToCookies(extensions);
             alert('Extension posted!');
-            navigate('/explorext');
+            navigate('/privacyrights');
         });
-    } else if (path === '/explorext') {
-        location.href = 'explorext.html';
+    } else if (path === '/privacyrights') {
+        location.href = '/privacyrights';
     }
 }
-
 
 if (!document.cookie.includes('extensions=')) {
     saveExtensionsToCookies(premadeExtensions);
