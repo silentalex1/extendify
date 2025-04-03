@@ -3,427 +3,574 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; connect-src 'self'; img-src 'self' data:;">
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="DENY">
-    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta name="referrer" content="strict-origin-when-cross-origin">
-    <title>Extension Nexus</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>Chrome Extensions Showcase</title>
     <style>
-        :root {
-            --primary: #1a73e8;
-            --secondary: #9333ea;
-            --success: #2ecc71;
-            --error: #e63946;
-            --neutral: #2d3748;
-            --bg-base: #f8fafc;
-            --bg-overlay: rgba(255, 255, 255, 0.92);
-            --text: #1f2937;
-            --shadow: rgba(0, 0, 0, 0.15);
-            --highlight: rgba(26, 115, 232, 0.2);
-            --accent: #f59e0b;
-        }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+        
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-base);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
+            background: linear-gradient(125deg, #0a0626, #1a1a3a, #102442, #0d2b4b);
+            background-size: 400% 400%;
+            animation: gradientBG 18s ease infinite;
+            color: #f0f2ff;
+            line-height: 1.6;
             overflow-x: hidden;
+            position: relative;
         }
-        .backdrop {
+        
+        @keyframes gradientBG {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+        
+        .particles {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 50% 50%, rgba(26, 115, 232, 0.1), transparent 70%);
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            animation: float 25s infinite;
+        }
+        
+        @keyframes float {
+            0% {transform: translateY(0) translateX(0) scale(1);}
+            25% {transform: translateY(-120px) translateX(40px) scale(1.02);}
+            50% {transform: translateY(-180px) translateX(80px) scale(1);}
+            75% {transform: translateY(-60px) translateX(20px) scale(0.98);}
+            100% {transform: translateY(0) translateX(0) scale(1);}
+        }
+        
+        .particle:nth-child(1) {width:3px; height:3px; top:10%; left:10%; animation-delay:0s; background:rgba(126,213,255,0.8); filter:blur(1px);}
+        .particle:nth-child(2) {width:5px; height:5px; top:15%; left:20%; animation-delay:2s; background:rgba(255,255,255,0.8); filter:blur(1px);}
+        .particle:nth-child(3) {width:2px; height:2px; top:20%; left:30%; animation-delay:4s; background:rgba(115,255,216,0.8); filter:blur(1px);}
+        .particle:nth-child(4) {width:4px; height:4px; top:25%; left:40%; animation-delay:6s; background:rgba(126,213,255,0.8); filter:blur(1px);}
+        .particle:nth-child(5) {width:6px; height:6px; top:30%; left:50%; animation-delay:8s; background:rgba(255,255,255,0.8); filter:blur(2px);}
+        .particle:nth-child(6) {width:3px; height:3px; top:35%; left:60%; animation-delay:10s; background:rgba(115,255,216,0.8); filter:blur(1px);}
+        .particle:nth-child(7) {width:5px; height:5px; top:40%; left:70%; animation-delay:12s; background:rgba(126,213,255,0.8); filter:blur(1px);}
+        .particle:nth-child(8) {width:2px; height:2px; top:45%; left:80%; animation-delay:14s; background:rgba(255,255,255,0.8); filter:blur(1px);}
+        .particle:nth-child(9) {width:4px; height:4px; top:50%; left:90%; animation-delay:16s; background:rgba(115,255,216,0.8); filter:blur(1px);}
+        .particle:nth-child(10) {width:3px; height:3px; top:55%; left:10%; animation-delay:18s; background:rgba(126,213,255,0.8); filter:blur(1px);}
+        .particle:nth-child(11) {width:5px; height:5px; top:60%; left:20%; animation-delay:20s; background:rgba(255,255,255,0.8); filter:blur(1px);}
+        .particle:nth-child(12) {width:2px; height:2px; top:65%; left:30%; animation-delay:22s; background:rgba(115,255,216,0.8); filter:blur(1px);}
+        .particle:nth-child(13) {width:4px; height:4px; top:70%; left:40%; animation-delay:24s; background:rgba(126,213,255,0.8); filter:blur(1px);}
+        .particle:nth-child(14) {width:6px; height:6px; top:75%; left:50%; animation-delay:26s; background:rgba(255,255,255,0.8); filter:blur(2px);}
+        .particle:nth-child(15) {width:3px; height:3px; top:80%; left:60%; animation-delay:28s; background:rgba(115,255,216,0.8); filter:blur(1px);}
+        .particle:nth-child(16) {width:5px; height:5px; top:85%; left:70%; animation-delay:30s; background:rgba(126,213,255,0.8); filter:blur(1px);}
+        .particle:nth-child(17) {width:2px; height:2px; top:90%; left:80%; animation-delay:32s; background:rgba(255,255,255,0.8); filter:blur(1px);}
+        .particle:nth-child(18) {width:4px; height:4px; top:95%; left:90%; animation-delay:34s; background:rgba(115,255,216,0.8); filter:blur(1px);}
+        .particle:nth-child(19) {width:3px; height:3px; top:10%; left:80%; animation-delay:36s; background:rgba(126,213,255,0.8); filter:blur(1px);}
+        .particle:nth-child(20) {width:5px; height:5px; top:15%; left:70%; animation-delay:38s; background:rgba(255,255,255,0.8); filter:blur(1px);}
+        .particle:nth-child(21) {width:7px; height:7px; top:20%; left:60%; animation-delay:40s; background:rgba(98,236,255,0.8); filter:blur(2px);}
+        .particle:nth-child(22) {width:2px; height:2px; top:25%; left:50%; animation-delay:42s; background:rgba(255,255,255,0.8); filter:blur(1px);}
+        .particle:nth-child(23) {width:4px; height:4px; top:30%; left:40%; animation-delay:44s; background:rgba(115,255,216,0.8); filter:blur(1px);}
+        .particle:nth-child(24) {width:6px; height:6px; top:35%; left:30%; animation-delay:46s; background:rgba(255,255,255,0.8); filter:blur(2px);}
+        .particle:nth-child(25) {width:3px; height:3px; top:40%; left:20%; animation-delay:48s; background:rgba(126,213,255,0.8); filter:blur(1px);}
+        
+        .aurora {
+            position: fixed;
+            width: 100%;
+            height: 100%;
             z-index: 0;
             pointer-events: none;
         }
-        .pulse {
+        
+        .aurora .light {
             position: absolute;
-            width: 200px;
-            height: 200px;
-            background: rgba(26, 115, 232, 0.05);
+            width: 600px;
+            height: 600px;
             border-radius: 50%;
-            animation: pulse 8s infinite ease-in-out;
-            z-index: 0;
+            background: radial-gradient(rgba(103, 226, 217, 0.15), transparent 70%);
+            filter: blur(80px);
         }
-        .pulse:nth-child(1) { top: 10%; left: 15%; }
-        .pulse:nth-child(2) { top: 60%; left: 75%; }
-        .pulse:nth-child(3) { top: 80%; left: 20%; }
-        .app {
-            background: var(--bg-overlay);
-            padding: 2rem 3rem;
-            border-radius: 1.5rem;
-            box-shadow: 0 10px 40px var(--shadow);
-            width: 100%;
-            max-width: 450px;
-            position: relative;
-            z-index: 1;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: transform 0.3s ease;
+        
+        .aurora .light:nth-child(1) {
+            top: -200px;
+            left: -100px;
+            animation: pulsate 15s ease infinite alternate;
         }
-        .app:hover { transform: translateY(-5px); }
-        h1 {
-            font-size: 2rem;
-            font-weight: 900;
-            color: var(--text);
-            margin-bottom: 2rem;
-            text-align: center;
+        
+        .aurora .light:nth-child(2) {
+            top: 60%;
+            right: -200px;
+            background: radial-gradient(rgba(128, 120, 235, 0.15), transparent 70%);
+            animation: pulsate 20s ease-in-out infinite alternate;
+        }
+        
+        .aurora .light:nth-child(3) {
+            bottom: -200px;
+            left: 30%;
+            background: radial-gradient(rgba(199, 136, 255, 0.12), transparent 70%);
+            animation: pulsate 25s ease infinite alternate;
+        }
+        
+        @keyframes pulsate {
+            0% {opacity: 0.4; transform: scale(1);}
+            50% {opacity: 0.8; transform: scale(1.2);}
+            100% {opacity: 0.4; transform: scale(1);}
+        }
+        
+        .container {max-width:1200px; margin:0 auto; padding:0 20px; position:relative; z-index:1;}
+        
+        nav {
+            background: rgba(15, 23, 42, 0.7);
+            padding: 1.2rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 25px rgba(0, 223, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(140, 228, 255, 0.1);
+        }
+        
+        nav .container {display:flex; justify-content:space-between; align-items:center;}
+        
+        nav .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #7be9ff;
+            text-shadow: 0 0 15px rgba(123, 233, 255, 0.5);
             letter-spacing: 1px;
         }
-        h1 span {
-            color: var(--primary);
-            text-shadow: 0 2px 5px var(--highlight);
-        }
-        .input-wrapper {
-            position: relative;
-            margin-bottom: 1.5rem;
-        }
-        input {
-            width: 100%;
-            padding: 1rem 1.5rem;
-            border: 1px solid #d1d5db;
-            border-radius: 1rem;
-            font-size: 1rem;
-            color: var(--text);
-            background: #fff;
-            outline: none;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 10px var(--highlight);
-        }
-        .input-icon {
-            position: absolute;
-            right: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #6b7280;
-            font-size: 1.2rem;
-            transition: color 0.3s ease;
-        }
-        input:focus + .input-icon { color: var(--primary); }
-        button {
-            width: 100%;
-            padding: 1rem;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #fff;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border: none;
-            border-radius: 1rem;
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        
+        nav ul {display:flex; list-style:none; gap: 10px;}
+        
+        nav ul li a {
+            color: #f0f2ff;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: block;
             position: relative;
             overflow: hidden;
         }
-        button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(26, 115, 232, 0.4);
-        }
-        button:active { transform: scale(0.98); }
-        button:disabled {
-            background: #9ca3af;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        button:disabled::after {
+        
+        nav ul li a:before {
             content: '';
             position: absolute;
-            width: 20px;
-            height: 20px;
-            border: 3px solid #fff;
-            border-top-color: transparent;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            top: 50%;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        nav ul li a:hover:before {
+            left: 100%;
+        }
+        
+        nav ul li a:hover {
+            background: rgba(123, 233, 255, 0.1);
+            border-color: rgba(123, 233, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        header {
+            background: transparent;
+            padding: 10rem 0 8rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        header:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(115, 255, 216, 0.1), transparent 70%);
+            pointer-events: none;
+        }
+        
+        header h1 {
+            font-size: 4.5rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 30px rgba(123, 233, 255, 0.5);
+            background: linear-gradient(to right, #73ffd8, #7be9ff, #c788ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-size: 200% auto;
+            animation: shine 5s linear infinite;
+            line-height: 1.2;
+            position: relative;
+            display: inline-block;
+        }
+        
+        @keyframes shine {
+            to {background-position: 200% center;}
+        }
+        
+        header p {
+            font-size: 1.4rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            color: #f0f2ff;
+        }
+
+        .showcase {
+            padding: 8rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .showcase:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(126, 213, 255, 0.08), transparent 70%);
+            pointer-events: none;
+        }
+        
+        .showcase h2 {
+            font-size: 3rem;
+            margin-bottom: 4rem;
+            text-shadow: 0 0 15px rgba(123, 233, 255, 0.3);
+            color: #7be9ff;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .showcase h2:after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, #73ffd8, #7be9ff);
+            border-radius: 3px;
         }
-        .status {
-            margin-top: 1.5rem;
-            padding: 1rem;
-            font-size: 0.95rem;
-            font-weight: 400;
-            color: var(--text);
-            background: #fff;
-            border-radius: 1rem;
-            box-shadow: 0 4px 15px var(--shadow);
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-        .status.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .history {
-            margin-top: 2rem;
-            max-height: 200px;
-            overflow-y: auto;
-            background: #fff;
-            border-radius: 1rem;
-            padding: 1rem;
-            box-shadow: 0 4px 15px var(--shadow);
-            display: none;
-        }
-        .history.active { display: block; }
-        .history-entry {
-            padding: 0.75rem 0;
-            border-bottom: 1px solid #e5e7eb;
+
+        .extension-slider {
             display: flex;
-            justify-content: space-between;
+            gap: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+            perspective: 1000px;
+        }
+        
+        .extension {
+            width: 330px;
+            padding: 2.5rem 2rem;
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            text-align: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            font-size: 0.9rem;
-            color: var(--text);
-            transition: background 0.2s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            z-index: 1;
         }
-        .history-entry:last-child { border-bottom: none; }
-        .history-entry:hover { background: var(--highlight); }
-        .history-entry span {
-            color: var(--accent);
-            cursor: pointer;
-            font-weight: 700;
-            transition: color 0.2s ease;
+        
+        .extension:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(115, 255, 216, 0.05), rgba(126, 213, 255, 0.05));
+            z-index: -1;
         }
-        .history-entry span:hover { color: var(--primary); }
-        @media (max-width: 400px) {
-            .app { padding: 1.5rem; }
-            h1 { font-size: 1.75rem; }
-            input, button { font-size: 0.95rem; }
-            .status { font-size: 0.85rem; }
-            .history-entry { font-size: 0.8rem; }
+        
+        .extension:after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.08), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
         }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.5); opacity: 0.3; }
+        
+        .extension:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(123, 233, 255, 0.1);
         }
-        @keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+        
+        .extension:hover:after {
+            opacity: 1;
+        }
+        
+        .badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #ff4d4d, #ff6b6b);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(255, 77, 77, 0.3);
+            letter-spacing: 0.5px;
+        }
+        
+        .extension h3 {
+            color: #7be9ff;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.5px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .extension h3:after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 2px;
+            background: #73ffd8;
+            border-radius: 2px;
+        }
+        
+        .extension .btn {
+            display: block;
+            width: 100%;
+            margin: 12px 0;
+            padding: 14px 20px;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.5px;
+            border: none;
+        }
+        
+        .btn-download {
+            background: linear-gradient(135deg, #73ffd8, #7be9ff);
+            color: #0a192f;
+            font-weight: 600;
+        }
+        
+        .btn-store {
+            background: transparent;
+            color: #7be9ff;
+            border: 2px solid rgba(123, 233, 255, 0.3) !important;
+        }
+        
+        .btn-about {
+            background: linear-gradient(135deg, #7b8cff, #c788ff);
+            color: white;
+        }
+        
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.7s ease;
+        }
+        
+        .btn:hover:before {
+            left: 100%;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-download:hover {
+            box-shadow: 0 8px 20px rgba(115, 255, 216, 0.3);
+        }
+        
+        .btn-store:hover {
+            box-shadow: 0 8px 20px rgba(123, 233, 255, 0.2);
+            border-color: rgba(123, 233, 255, 0.6) !important;
+        }
+        
+        .btn-about:hover {
+            box-shadow: 0 8px 20px rgba(199, 136, 255, 0.3);
+        }
+
+        footer {
+            text-align: center;
+            padding: 4rem 0;
+            background: rgba(15, 23, 42, 0.7);
+            color: #a8b2d1;
+            position: relative;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+        
+        footer p {
+            font-size: 1.1rem;
+            position: relative;
+            z-index: 1;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            nav .container {
+                flex-direction: column;
+                text-align: center;
+            }
+            nav ul {
+                margin-top: 1.5rem;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            nav ul li {
+                margin: 0.5rem;
+            }
+            header {
+                padding: 6rem 0 4rem;
+            }
+            header h1 {
+                font-size: 3rem;
+            }
+            .showcase {
+                padding: 4rem 0;
+            }
+            .extension {
+                width: 100%;
+                max-width: 350px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="backdrop">
-        <div class="pulse"></div>
-        <div class="pulse"></div>
-        <div class="pulse"></div>
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
     </div>
-    <div class="app">
-        <h1>Extension <span>Nexus</span></h1>
-        <div class="input-wrapper">
-            <input type="text" id="extId" placeholder="Enter Extension ID (32 letters)" autocomplete="off" spellcheck="false" maxlength="32">
-            <span class="input-icon">🔗</span>
+    
+    <div class="aurora">
+        <div class="light"></div>
+        <div class="light"></div>
+        <div class="light"></div>
+    </div>
+    
+    <nav>
+        <div class="container">
+            <div class="logo">Extensions</div>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/tos">ToS</a></li>
+                <li><a href="/aboutsite">About Site</a></li>
+                <li><a href="/aboutowner">About Owner</a></li>
+            </ul>
         </div>
-        <button id="install">Install Now</button>
-        <div id="status" class="status"></div>
-        <div id="history" class="history"></div>
-    </div>
-    <script>
-        const DOM = {
-            installBtn: document.getElementById("install"),
-            extId: document.getElementById("extId"),
-            status: document.getElementById("status"),
-            history: document.getElementById("history")
-        };
-
-        const Security = {
-            generateToken: () => `${Math.random().toString(36).slice(2)}${Date.now().toString(36)}`,
-            validateInput: (input) => /^[a-z]{32}$/.test(input),
-            sanitize: (input) => input.toLowerCase().replace(/[^a-z]/g, "").slice(0, 32),
-            isSecureContext: () => window.location.protocol === "https:" || window.location.hostname === "localhost"
-        };
-
-        const BrowserDetect = {
-            getBrowser: () => {
-                const ua = navigator.userAgent.toLowerCase();
-                const tests = [
-                    { name: "Chrome", check: () => /chrome/.test(ua) && /google/.test(navigator.vendor) && !/opr|edg/.test(ua) },
-                    { name: "Edge", check: () => /edg/.test(ua) },
-                    { name: "Firefox", check: () => /firefox/.test(ua) && /gecko/.test(ua) },
-                    { name: "Safari", check: () => /safari/.test(ua) && /apple/.test(navigator.vendor) && !/chrome/.test(ua) },
-                    { name: "Opera", check: () => /opr/.test(ua) },
-                    { name: "OperaGX", check: () => /opr/.test(ua) && /gx/.test(ua) }
-                ];
-                const match = tests.find(test => test.check());
-                return match ? match.name : "Unknown";
-            },
-            canInstall: () => {
-                const browser = BrowserDetect.getBrowser();
-                return browser === "Chrome" && typeof chrome !== "undefined";
-            },
-            detectSpoof: () => {
-                const ua = navigator.userAgent;
-                const inconsistencies = [
-                    /bot|crawl|spider/.test(ua),
-                    navigator.webdriver,
-                    !window.outerWidth || !window.outerHeight
-                ];
-                return inconsistencies.some(Boolean);
-            }
-        };
-
-        const Storage = {
-            data: {
-                history: JSON.parse(localStorage.getItem("extHistory")) || [],
-                attempts: JSON.parse(localStorage.getItem("extAttempts")) || [],
-                cache: new Map()
-            },
-            init: () => {
-                Storage.data.history = Storage.data.history.filter(entry => 
-                    Date.now() - new Date(entry.timestamp).getTime() < 30 * 24 * 60 * 60 * 1000
-                );
-                Storage.save("extHistory", Storage.data.history);
-                Storage.renderHistory();
-            },
-            save: (key, value) => localStorage.setItem(key, JSON.stringify(value)),
-            logAttempt: (id, browser, outcome) => {
-                Storage.data.attempts.push({ id, browser, outcome, timestamp: Date.now() });
-                Storage.data.attempts = Storage.data.attempts.slice(-100);
-                Storage.save("extAttempts", Storage.data.attempts);
-            },
-            addHistory: (id, browser, status, message) => {
-                Storage.data.history.unshift({ id, browser, status, message, timestamp: Date.now() });
-                Storage.data.history = Storage.data.history.slice(0, 15);
-                Storage.save("extHistory", Storage.data.history);
-                Storage.renderHistory();
-            },
-            renderHistory: () => {
-                DOM.history.innerHTML = Storage.data.history.map(entry => `
-                    <div class="history-entry">
-                        <span>${entry.id.slice(0, 6)}... (${entry.browser}) - ${entry.status}</span>
-                        <span onclick="App.retry('${entry.id}')">Retry</span>
-                    </div>
-                `).join("");
-                DOM.history.classList.toggle("active", Storage.data.history.length > 0);
-            },
-            getStats: () => {
-                const success = Storage.data.attempts.filter(a => a.outcome === "success").length;
-                return {
-                    total: Storage.data.attempts.length,
-                    successRate: Storage.data.attempts.length ? (success / Storage.data.attempts.length * 100).toFixed(1) : 0
-                };
-            }
-        };
-
-        const ExtensionManager = {
-            simulateFetch: (id) => {
-                if (Storage.data.cache.has(id)) return Storage.data.cache.get(id);
-                const mock = {
-                    id,
-                    name: `Ext-${id.slice(0, 6)}`,
-                    version: "1.2.3",
-                    url: `https://nexus.local/ext/${id}.crx`
-                };
-                Storage.data.cache.set(id, mock);
-                return mock;
-            },
-            install: async (id, browser) => {
-                if (browser !== "Chrome") {
-                    return { success: false, message: `Manual install required for ${browser}. Download .${browser === "Firefox" ? "xpi" : "crx"} and drag into browser.` };
-                }
-                const data = ExtensionManager.simulateFetch(id);
-                return new Promise((resolve) => {
-                    setTimeout(() => {
-                        resolve({ success: true, message: `${data.name} v${data.version} installed` });
-                    }, 1200);
-                });
-            }
-        };
-
-        const RateLimiter = {
-            limits: new Map(),
-            check: (key, max = 5, windowMs = 60 * 1000) => {
-                const now = Date.now();
-                const record = RateLimiter.limits.get(key) || { count: 0, start: now };
-                if (now - record.start > windowMs) {
-                    record.count = 0;
-                    record.start = now;
-                }
-                record.count++;
-                RateLimiter.limits.set(key, record);
-                return record.count <= max;
-            }
-        };
-
-        const App = {
-            setLoading: (state) => {
-                DOM.installBtn.disabled = state;
-                DOM.installBtn.textContent = state ? "" : "Install Now";
-            },
-            showStatus: (message, type) => {
-                DOM.status.textContent = message;
-                DOM.status.style.color = { success: "--success", error: "--error", info: "--primary" }[type] || "--neutral";
-                DOM.status.classList.add("active");
-                setTimeout(() => DOM.status.classList.remove("active"), 8000);
-            },
-            retry: (id) => {
-                DOM.extId.value = id;
-                App.install();
-            },
-            showStats: () => {
-                const { total, successRate } = Storage.getStats();
-                App.showStatus(`Attempts: ${total} | Success: ${successRate}%`, "info");
-            },
-            install: async () => {
-                const id = Security.sanitize(DOM.extId.value);
-                const browser = BrowserDetect.getBrowser();
-                const token = Security.generateToken();
-
-                if (!id) return App.showStatus("Please enter an ID", "error");
-                if (!Security.validateInput(id)) return App.showStatus("ID must be 32 lowercase letters", "error");
-                if (!Security.isSecureContext()) return App.showStatus("HTTPS required for security", "error");
-                if (BrowserDetect.detectSpoof()) return App.showStatus("Suspicious activity detected", "error");
-                if (!RateLimiter.check("install")) return App.showStatus("Too many attempts. Wait a minute.", "error");
-
-                App.setLoading(true);
-                App.showStatus(`Installing on ${browser}...`, "info");
-
-                try {
-                    const result = await ExtensionManager.install(id, browser);
-                    if (result.success) {
-                        App.showStatus(result.message, "success");
-                        Storage.addHistory(id, browser, "Success", result.message);
-                        Storage.logAttempt(id, browser, "success");
-                        DOM.extId.value = "";
-                    } else {
-                        App.showStatus(result.message, "error");
-                        Storage.addHistory(id, browser, "Failed", result.message);
-                        Storage.logAttempt(id, browser, "failed");
-                    }
-                } catch (err) {
-                    App.showStatus(`Error: ${err.message || "Unknown issue"}`, "error");
-                    Storage.addHistory(id, browser, "Error", err.message);
-                    Storage.logAttempt(id, browser, "error");
-                } finally {
-                    App.setLoading(false);
-                }
-            }
-        };
-
-        DOM.installBtn.addEventListener("click", App.install);
-        DOM.extId.addEventListener("keypress", (e) => e.key === "Enter" && App.install());
-        DOM.extId.addEventListener("input", () => DOM.status.classList.remove("active"));
-        DOM.installBtn.addEventListener("contextmenu", (e) => {
-            e.preventDefault();
-            App.showStats();
-        });
-        window.addEventListener("load", () => {
-            Storage.init();
-            if (!Security.isSecureContext()) App.showStatus("Warning: Use HTTPS for full functionality", "error");
-        });
-    </script>
+    </nav>
+    
+    <header>
+        <div class="container">
+            <h1>Chrome Extensions</h1>
+            <p>Start using our upcoming chrome extensions today.</p>
+        </div>
+    </header>
+    
+    <section class="showcase">
+        <div class="container">
+            <h2>Our Extensions</h2>
+            <div class="extension-slider">
+                <div class="extension">
+                    <div class="badge">Being worked on</div>
+                    <h3>Privacy Rights</h3>
+                    <a href="#" class="btn btn-download">Download</a>
+                    <a href="https://chrome.google.com/webstore" target="_blank" class="btn btn-store">Go to Extension</a>
+                    <a href="/privacyrights" class="btn btn-about">About Extension</a>
+                </div>
+                <div class="extension">
+                    <div class="badge">Being worked on</div>
+                    <h3>Vidpulse</h3>
+                    <a href="#" class="btn btn-download">Download</a>
+                    <a href="https://chrome.google.com/webstore" target="_blank" class="btn btn-store">Go to Extension</a>
+                    <a href="/vidpulse" class="btn btn-about">About Extension</a>
+                </div>
+                <div class="extension">
+                    <div class="badge">Being worked on</div>
+                    <h3>ShadowPulse</h3>
+                    <a href="#" class="btn btn-download">Download</a>
+                    <a href="https://chrome.google.com/webstore" target="_blank" class="btn btn-store">Go to Extension</a>
+                    <a href="/shadowpulse" class="btn btn-about">About Extension</a>
+                </div>
+                <div class="extension">
+                    <div class="badge">Being worked on</div>
+                    <h3>Quietlink</h3>
+                    <a href="#" class="btn btn-download">Download</a>
+                    <a href="https://chrome.google.com/webstore" target="_blank" class="btn btn-store">Go to Extension</a>
+                    <a href="/quietlink" class="btn btn-about">About Extension</a>
+                </div>
+                <div class="extension">
+                    <div class="badge">Being worked on</div>
+                    <h3>StreamShift</h3>
+                    <a href="#" class="btn btn-download">Download</a>
+                    <a href="https://chrome.google.com/webstore" target="_blank" class="btn btn-store">Go to Extension</a>
+                    <a href="/streamshift" class="btn btn-about">About Extension</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>© 2025 Useful Chrome Extensions. Made with Smart Script Studios.</p>
+        </div>
+    </footer>
 </body>
 </html>
